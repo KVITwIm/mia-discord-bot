@@ -1,141 +1,15 @@
-const config = require('./config'); // Подключаем файл с параметрами и информацией
-const { Client, Intents } = require('discord.js');
-const prefix = config.prefix; // «Вытаскиваем» префик
-const request = require('request');
-const base_news = [];
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
 const { Permissions } = require('discord.js');
 
-const question = ["Он лидер?"]
-var random_question
-var question1_1 = "У него есть корона?"
-var question1_1_value
-var question1_2 = ""
-var question1_2
-var question1_3
-var question1_4
-
-var question2_1 = "This is GospodGospodny"
-
-
-
-
-
-function vopros_otvet(robot, mess, args){
-
-  random_question = question[Math.floor(Math.random() * (question.length))];
-
-  const embed = new MessageEmbed()
-    .setTitle('Акинатор')
-    .setDescription(`Отвечайте на каждый вопрос командой +answer1 ответ(или +answer2 в зависимости от номера вопроса)`)
-    .addField('Первый вопрос', `${random_question}`, true)
-    mess.channel.send({ embeds: [embed] });
-
-}
-
-function answer1(robot, mess, args){
-  const arggs = mess.content.split(' ').slice(1); // Все аргументы за именем команды с префиксом
-  random_question = question[Math.floor(Math.random() * (question.length))];  
-
-  if(random_question == question[0]){
-    if(arggs == "Да"){
-    question1_1_value = true
-    mess.channel.send(question1_1)
-    }
-    if(arggs == "Нет"){
-    question1_1_value = false
-    mess.channel.send(random_question)
-    }
-  }
-  if(random_question == question[1]){
-    mess.channel.send("Согласен2")
-  }
-  if(random_question == question[2]){
-    mess.channel.send("Согласен3")
-  }
-  if(random_question == question[3]){
-    mess.channel.send("Согласен4")
-  }
-}
-
-function answer2(robot, mess, args){
-  const arggs = mess.content.split(' ').slice(1); // Все аргументы за именем команды с префиксом
-  if(question1_1_value == true){
-    if(arggs == "Да")
-    mess.channel.send(question2_1)
-  }
-  if(random_question == question[1]){
-    mess.channel.send("Согласен2")
-  }
-  if(random_question == question[2]){
-    mess.channel.send("Согласен3")
-  }
-  if(random_question == question[3]){
-    mess.channel.send("Согласен4")
-  }
-}
-
+const config = require('./config');
+const prefix = config.prefix;
+const request = require('request');
 
 function help(robot, mess, args){
-  const embed = new Discord.MessageEmbed()
-     fields: [
-		{
-			name: 'Команды бота:',
-			value: '+newpost - рандомная новость (каждая новая генерация записывается и ее можно воспроизвести с помощью +newpost номер комбинации, например: newpost 12)',
-		},
-		{
-			name: '\u200b',
-			value: '\u200b',
-			inline: false,
-		},
-		{
-			name: false,
-			value: '+random_name - рандомное имя/ник',
-			inline: true,
-		},
-		{
-			name: 'Inline field title',
-			value: 'Some value here',
-			inline: true,
-		},
-		{
-			name: 'Inline field title',
-			value: 'Some value here',
-			inline: true,
-		},
-	],
-    mess.channel.send(embed)
-}
-
-function converter(robot, mess, args){
-  let sk = [];
-  sk = mess.content.split(' ').slice(1);
-  sk = sk.join(" ");
-  if(sk == ""){
-    mess.channel.send("Вы не указали сколько СК нужно конвертировать! Например: +convert число")
-  } else if(sk.match(/^-?[\d.]+(?:e-?\d+)?$/)){
-    let sk_stap1 = sk * 10 / 64
-    let sk_sk = Math.floor(sk_stap1)
-    let sk_stap3 = sk_stap1 - sk_sk;
-    let sk_sc = sk_stap3 * 64;
-    mess.channel.send(sk_sk + " ст " + sk_sc + " сц");
-  } else {
-    mess.channel.send("Укажите число!")
-  }
-}
-function vip_convert(robot, mess, args){
-  if(mess.member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)){
-  let sk = [];
-  sk = mess.content.split(' ').slice(1);
-  sk = sk.join(" ");
-
-    let sk_stap1 = sk * 10 / 64
-    let sk_sk = Math.floor(sk_stap1)
-    let sk_stap3 = sk_stap1 - sk_sk;
-    let sk_sc = sk_stap3 * 64;
-    mess.channel.send(sk_sk + " ст " + sk_sc + " сц");
-  }
+  const embed = new MessageEmbed()
+     .setDescription("Команды: +cat +dog +help +clear +say +newpost +test +random_name +орел_решка")
+    mess.channel.send({ embeds: [embed] });
 }
 
 function random_cat(robot, mess, args){
@@ -152,7 +26,8 @@ request.get('http://thecatapi.com/api/images/get?format=src&type=png', {
 }
 
 function test(robot, mess, args) {
-    
+    mess.channel.send("Загрузка выполнена успешно.")
+    mess.channel.send("Или нет...")
 }
 
 function random_dog(robot, mess, args){
@@ -202,75 +77,22 @@ function say(robot, mess, args){
     mess.delete();
 }
 
-function sj(robot, mess, args){
-  mess.delete()
-  mess.channel.send("Бро, это код от старого выпуска.")
-}
-
 function heads_or_tails(robot,mess,args){
   mess.channel.send('Монета подбрасывается...')
 
-  var random = Math.floor(Math.random() * 4) + 1; // Объявление переменной random - она вычисляет случайное число от 1 до 3
+  var random = Math.floor(Math.random() * 4) + 1;
 
-  if (random === 1) { // Если вычислено число 1, то выпадает орёл.
+  if (random === 1) { 
     mess.channel.send(':full_moon: Орёл!')
-  } else if (random === 2) { // Если вычислено число 2, то выпадает решка.
+  } else if (random === 2) {
     mess.channel.send(':new_moon: Решка!')
-  } else if (random === 3) { // Если вычислено число 3, то монета падает ребром.
+  } else if (random === 3) {
     mess.channel.send(':last_quarter_moon: Монета упала ребром!')
 }
 }
 
-function sj2(robot, mess, args){
-  mess.delete()
-  mess.author.send('Второй выпуск. Спасибо, что выбираете нас!', {
-            files: [
-                "./1.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./2.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./3.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./4.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./5.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./6.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./7.png"
-            ]
-  });
-  mess.author.send({
-            files: [
-                "./8.png"
-            ]
-  });
-  mess.author.send('Выпуск станет общедоступным как обычно через пару дней.')
-  mess.channel.send("Спасибо, за покупку второго выпуска! Нарядный выпуск отправлен вам в лс")
-}
-
-
-
 function random_name(robot, mess, args){
-    var name = [ // Объявление массива name и занесение в него большого количества имён
+    var name = [
         'Квит', ' Аваз', ' Дестрикс', ' Август', ' Августин',
         ' Авдей', ' Авраам', ' Дестрикс', ' Дестрикс', ' Квит',
         ' Аггей', ' Квит', ' Адис', ' Адольф', ' Адриан',
@@ -296,90 +118,58 @@ function random_name(robot, mess, args){
         ' Муслим', ' Квит'
       ];
       
-      var RandElement = name[Math.floor(Math.random() * (name.length))]; // Выбор 
+      var RandElement = name[Math.floor(Math.random() * (name.length))];
       name
         namer = RandElement;
-        mess.channel.send(RandElement) // Отправка 
+        mess.channel.send(RandElement)
 }
 
-
-
-function admin(robot, mess, args){
-  const fetched = mess.channel.fetchMessages({limit: 99});
-  mess.channel.bulkDelete(fetched);
-}
-
-function newpost(robot, mess, args){
-
+function newpost(robot, mess){
   let argg = [];
   argg = mess.content.split(' ').slice(1);
   arggs = argg.join(" ");
 
-if(arggs == ""){
-  let name_male = [ 
-    "Русенон",
-    "Дуралей",
-    "Квит",
-    "Чича",
-    "Найскек",
-    "Кекамур",
-    "Господь",
-    "Дестрикс",
-    'Ластдаст',
-    'Родик',
-    'Кекамур',
-    'Штанга',
-    'Сосок Иван',
-    'Бенни',
-    'Поггерс',
-    'Амозгунов',
-    "Vo1",
-    "Вижан",
-    "Леон Пирс",
-    'Висмут',
-    'Франкенштейн',
-    "Мухочек",
-    "Линкер",
-    "Пармезан",
-    'Рейтлайм'
-];
-  let name_female = [
-  "Ритсу",
-  "Лапотчка",
-  "Риас",
-  "Jur_of_cookies",
-  'Просто Катя',
-  'Джейн',
-  'Сашкадор',
-  "Изанами",
-  "Каралиняша"
-]
-let name = [name_male,name_female];
-  let RandGender = name[Math.floor(Math.random() * (name.length))];
-  let RandGender2 = name[Math.floor(Math.random() * (name.length))];
-  let RandElementName = RandGender[Math.floor(Math.random() * (RandGender.length))];
-  let work_male = ["купил","забанил","получил","сотворил","создал"]
-  let work_female = ["купила","забанила","получила","сотворила","создала"]
-  let object = ["остров","модера","район","элитры","ашан","SHONEN JUMP","New Order","еду","Средневековье","Ивановку","Магию"];
+  if(arggs == ""){
+    let name_male = [ 
+      "Русенон","Дуралей","Квит","Чича","Найскек","Кекамур","Господь","Дестрикс",
+      'Ластдаст','Родик','Штанга','Сосок Иван','Бенни','Поггерс','Амозгунов','Рейтлайм',
+      "Vo1","Вижан","Леон Пирс",'Висмут','Франкенштейн',"Мухочек","Линкер","Пармезан"
+    ];
+    let name_female = [
+    "Ритсу","Лапотчка","Риас","Jur_of_cookies",'Просто Катя',
+    'Джейн','Сашкадор',"Изанами","Каралиняша"
+    ];
+
+    let work_male = ["купил","забанил","получил","сотворил","создал"];
+    let work_female = ["купила","забанила","получила","сотворила","создала"];
+
+    let object = ["остров","модера","район","элитры","ашан","SHONEN JUMP","New Order","еду","Средневековье","Ивановку","Магию"];
+
+    let name = [name_male,name_female];
+
+    let RandGender = name[Math.floor(Math.random() * (name.length))];
+    let RandGender2 = name[Math.floor(Math.random() * (name.length))];
+    let RandElementName = RandGender[Math.floor(Math.random() * (RandGender.length))];
   
-  if(RandGender == name_male){
-    let RandElementWork = work_male[Math.floor(Math.random() * (work_male.length))];
-    let RandElementWork2 = work_male[Math.floor(Math.random() * (work_male.length))];
-    let RandElementObject = object[Math.floor(Math.random() * (object.length))];
-    let RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
+    if(RandGender == name_male){
+      let RandElementWork = work_male[Math.floor(Math.random() * (work_male.length))];
+      let RandElementWork2 = work_male[Math.floor(Math.random() * (work_male.length))];
+      let RandElementObject = object[Math.floor(Math.random() * (object.length))];
+      let RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
   
-  for(RandElementWork == RandElementWork2; RandElementWork2 == RandElementWork;){
-    RandElementWork2 = work_male[Math.floor(Math.random() * (work_male.length))];
-  }
-  for(RandElementObject == RandElementObject2;RandElementObject2 == RandElementObject;){
-    RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
-  }
+    for(RandElementWork == RandElementWork2; RandElementWork2 == RandElementWork;){
+      RandElementWork2 = work_male[Math.floor(Math.random() * (work_male.length))];
+    }
 
-  var num_gen = base_news.length + 1;
+    for(RandElementObject == RandElementObject2;RandElementObject2 == RandElementObject;){
+      RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
+    }
 
-  mess.channel.send(RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen);
+    var num_gen = base_news.length + 1;
 
-  base_news[base_news.length] = RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen;
+    mess.channel.send(RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen);
+
+    base_news[base_news.length] = RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen;
 } 
 
   if(RandGender == name_female){
@@ -388,29 +178,23 @@ let name = [name_male,name_female];
     let RandElementObject = object[Math.floor(Math.random() * (object.length))];
     let RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
 
-for(RandElementWork == RandElementWork2; RandElementWork2 == RandElementWork;){
-  RandElementWork2 = work_female[Math.floor(Math.random() * (work_female.length))];
-}
-for(RandElementObject == RandElementObject2;RandElementObject2 == RandElementObject;){
-  RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
-}
+      for(RandElementWork == RandElementWork2; RandElementWork2 == RandElementWork;){
+        RandElementWork2 = work_female[Math.floor(Math.random() * (work_female.length))];
+      }
+      for(RandElementObject == RandElementObject2;RandElementObject2 == RandElementObject;){
+        RandElementObject2 = object[Math.floor(Math.random() * (object.length))];
+      }
 
-var num_gen = base_news.length + 1;
+        var num_gen = base_news.length + 1;
 
-mess.channel.send(RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen);
+    mess.channel.send(RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen);
 
-base_news[base_news.length] = RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen;
-
-}
-} else{
-
-arggs = Number(arggs);
---arggs;
-
-mess.channel.send(base_news[arggs]);
-}
-
-}
+    base_news[base_news.length] = RandElementName + " " + RandElementWork + " " + RandElementObject + " и " + RandElementWork2 + " " + RandElementObject2 + " номер генерации: " + num_gen;
+  }} else{
+    arggs = Number(arggs);
+      --arggs;
+    mess.channel.send(base_news[arggs]);
+}}
 
 
 
@@ -422,93 +206,42 @@ mess.channel.send(base_news[arggs]);
 
 // Список команд //
 
-var comms_list = [{
+var comms_list = [
+{
   name: "test",
   out: test,
-  about: "Тестовая команда"
 },
 {
     name: "random_name",
     out: random_name,
-    about: "Случайное имя"
-},
-{
-  name: "admin",
-  out: admin,
-  about: "role"
 },
 {
   name: "newpost",
   out: newpost,
-  about: "Рандом пост"
-},
-{
-  name: "shonenjump#0777",
-  out: sj,
-  about: "Рандом пост"
-},
-{
-  name: "shonenjump#0002",
-  out: sj2,
-  about: "Рандом пост"
 },
 {
   name: "say",
   out: say,
-  about: "say"
 },
 {
   name: "орел_решка",
   out: heads_or_tails,
-  about: "орел или решка"
 },
 {
   name: "clear",
   out: clear,
-  about: "clear"
 },
 {
   name: "cat",
   out: random_cat,
-  about: "cat"
-},
-{
-  name: "convert",
-  out: converter,
-  about: "wasted"
 },
 {
   name: "dog",
   out: random_dog,
-  about: "wasted"
 },
 {
   name: "help",
   out: help,
-  about: "wasted"
-},
-{
-  name: "vip_convert",
-  out: vip_convert,
-  about: "wasted"
-},
-{
-  name: "vopros_otvet",
-  out: vopros_otvet
-},
-{
-  name: "answer1",
-  out: answer1
-},
-{
-  name: "answer2",
-  out: answer2
 }];
-
-
-
-// Name - название команды, на которую будет реагировать бот
-// Out - название функции с командой
-// About - описание команды 
 
 module.exports.comms = comms_list;
