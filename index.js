@@ -1,9 +1,9 @@
-let config = require('./config'); // Подключаем файл с параметрами и информацией
-let token = config.token; // «Вытаскиваем» из него токен
-let prefix = config.prefix; // «Вытаскиваем» из него префикс robot
+let config = require('./config');
+let token = config.token;
+let prefix = config.prefix;
 
-const comms = require("./comms"); // Подключаем файл с командами для бота
-const fs = require('fs'); // Подключаем родной модуль файловой системы node.js  
+const comms = require("./comms");
+const fs = require('fs');
 const { Client, Intents } = require('discord.js');
 const robot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const { MessageEmbed } = require('discord.js');
@@ -22,18 +22,13 @@ robot.on('messageDelete', async (message) => {
 		limit: 1,
 		type: 'MESSAGE_DELETE',
 	});
-	// Since there's only 1 audit log entry in this collection, grab the first one
+
 	const deletionLog = fetchedLogs.entries.first();
 
-	// Perform a coherence check to make sure that there's *something*
 	if (!deletionLog) return logs.send(`A message by ${message.author.tag} was deleted, but no relevant audit logs were found.`);
 
-	// Now grab the user object of the person who deleted the message
-	// Also grab the target of this action to double-check things
 	const { executor, target } = deletionLog;
 
-	// Update the output with a bit more information
-	// Also run a check to make sure that the log returned was for the same author's message
 	if (target.id === message.author.id) {
 		logs.send(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
 	} else {
@@ -57,33 +52,7 @@ robot.on('messageCreate', message => {
      .setDescription(`**🏓 My ping is : **\`${Math.round(robot.ws.ping)}ms\``)
     message.channel.send({ embeds: [embed] });
   } 
-  if(message.content == "привет") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  }
-  if(message.content == "Ку") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  } 
-  if(message.content == "Hello") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  } 
-  if(message.content == "Hi") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  }
-  if(message.content == "Дарова") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  }
-  if(message.content == "Хай") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  }
-  if(message.content == "Здарова") {
-    message.reply("Привет! А ты смотрел доктора хауса? Нет? Бегом смотри - https://house-doc.ru/")
-  }  
-  if(message.content == "Доктор Хаус") {
-    message.reply("@KVIT#0777 к вашим услугам")
-  }   
-  if(message.content == "+sorry") {
-    message.channel.send("Да...")
-}});
+});
 
 robot.on('messageCreate', message => {
   if (message.author.username != robot.user.username && message.author.discriminator != robot.user.discriminator) {
@@ -100,4 +69,4 @@ robot.on('messageCreate', message => {
 });
 
 require('./server')();
-robot.login(token); // Авторизация бота
+robot.login(token);
