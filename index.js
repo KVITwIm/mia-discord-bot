@@ -51,6 +51,9 @@ robot.on('messageCreate', message => {
     const embed = new MessageEmbed()
      .setDescription(`**🏓 My ping is : **\`${Math.round(robot.ws.ping)}ms\``)
     message.channel.send({ embeds: [embed] });
+  }
+ if(message.content === "Привет") {
+    message.reply("Хай");
   } 
 });
 
