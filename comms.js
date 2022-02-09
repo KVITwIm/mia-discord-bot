@@ -6,6 +6,8 @@ const config = require('./config');
 const prefix = config.prefix;
 const request = require('request');
 
+var base_news = [];
+
 function help(robot, mess, args){
   const embed = new MessageEmbed()
      .setDescription("Команды: +cat +dog +help +clear +say +newpost +test +random_name +орел_решка")
