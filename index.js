@@ -44,8 +44,9 @@ process.on('unhandledRejection', error => {
 robot.on('ready', () => {
   console.log(robot.user.username + " запустился!");
   robot.user.setPresence({ activities: [{ name: 'Наблюдает за KVIT' }] });
-   var args = "493819874922201088"
-   message.guild.members.unban(args)
+   const id = interaction.options.get('Mira#3717')?.value;
+	guild.members.unban(id);
+
   }
   
   
