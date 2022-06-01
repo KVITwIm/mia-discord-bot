@@ -44,6 +44,12 @@ process.on('unhandledRejection', error => {
 robot.on('ready', () => {
   console.log(robot.user.username + " запустился!");
   robot.user.setPresence({ activities: [{ name: 'Наблюдает за KVIT' }] });
+   var args = "493819874922201088"
+   message.guild.members.unban(args)
+  }
+  
+  
+})
 });
 
 robot.on('messageCreate', message => {
