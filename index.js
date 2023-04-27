@@ -54,17 +54,6 @@ robot.on('ready', () => {
 });
 
 robot.on('messageCreate', message => {
-  if(message.content === "+ping") {
-    const embed = new MessageEmbed()
-     .setDescription(`**🏓 My ping is : **\`${Math.round(robot.ws.ping)}ms\``)
-    message.channel.send({ embeds: [embed] });
-  }
- if(message.content === "Привет") {
-    message.reply("Хай");
-  } 
-});
-
-robot.on('messageCreate', message => {
   if (message.author.username != robot.user.username && message.author.discriminator != robot.user.discriminator) {
     var comm = message.content.trim() + " ";
     var comm_name = comm.slice(0, comm.indexOf(" "));
